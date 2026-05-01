@@ -46,9 +46,13 @@ Interactive mode is available when running from a terminal:
 python3 ysm_extract.py --interactive
 ```
 
+## Future plan
+Add full support for all version, and any future version.
+**Keep it alive**
+
 ## Project Boundary
 
-ILoveOpenYSM 1.0.0 is the extractor-only package.
+ILoveOpenYSM is extractor-only package.
 
 ## Disclaimer Of Liability
 
