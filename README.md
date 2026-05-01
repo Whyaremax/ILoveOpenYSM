@@ -4,6 +4,8 @@ ILoveOpenYSM is an open YSM extractor for Yes Steve Model files. It is packaged 
 
 Keywords: YSM extractor, Yes Steve Model extractor, OpenYSM, ILoveOpenYSM, NoSteveModel alternative, NSM alternative, Minecraft YSM decoder, YSGP extractor, BOM v3 extractor, Yes Steve Model tools, Minecraft player model extractor, YSM model converter.
 
+# ANY paided OpenYSM extractor is a scam, this is a free project open and available for anyone.
+
 ## Release
 
 Current release: `1.0.0`
@@ -46,13 +48,35 @@ Interactive mode is available when running from a terminal:
 python3 ysm_extract.py --interactive
 ```
 
+## How does it work?
+
+The extractor workflow could be simplified to following:
+Check for if its valid YSM model from metadata, and first few byte of binary 
+Identify format version from metadata
+Identify the key within the first few byte
+Use preset offset, decrypt the rest of binary with the key, and output as ZSTD
+Unpack ZSTD
+If > 15 (that's the cut off point I know, there could be a 28 inbetween I remember)
+  Treat it as a folder-ish structure and dump everything cleanly. This is because on this verison, file are no longer lowered to binary, where before it lowered to minimal render requirement, making both maintenance and decryption hard, this change is most likely due to maintenance complexity with lowering to binary and unnesscary of doinf so.
+
+If =< 15
+  We treat it same way until to unzipping ZTSD part. We need start "guessing" the cubes from how its constructed, patterns, guesses where it end. This causes inaccuracy, this is why format 15, I call by fair hardest version, format 9 seem like a simplified format 15, and so on.
+
 ## Future plan
+
 Add full support for all version, and any future version.
 **Keep it alive**
 
 ## Project Boundary
 
 ILoveOpenYSM is extractor-only package.
+
+## Communication
+
+Discord nooboyeah
+Discord server perm link https://discord.gg/h6Gy9EgcWj
+No QQ
+And I'm not giving out anything else
 
 ## Disclaimer Of Liability
 
