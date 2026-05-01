@@ -52,10 +52,14 @@ python3 ysm_extract.py --interactive
 
 The extractor workflow could be simplified to following:
 Check for if its valid YSM model from metadata, and first few byte of binary 
+
 Identify format version from metadata
+
 Identify the key within the first few byte
+
 Use preset offset, decrypt the rest of binary with the key, and output as ZSTD
 Unpack ZSTD
+
 If > 15 (that's the cut off point I know, there could be a 28 inbetween I remember)
   Treat it as a folder-ish structure and dump everything cleanly. This is because on this verison, file are no longer lowered to binary, where before it lowered to minimal render requirement, making both maintenance and decryption hard, this change is most likely due to maintenance complexity with lowering to binary and unnesscary of doinf so.
 
