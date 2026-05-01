@@ -61,10 +61,10 @@ Use preset offset, decrypt the rest of binary with the key, and output as ZSTD
 Unpack ZSTD
 
 If > 15 (that's the cut off point I know, there could be a 28 inbetween I remember)
-  Treat it as a folder-ish structure and dump everything cleanly. This is because on this verison, file are no longer lowered to binary, where before it lowered to minimal render requirement, making both maintenance and decryption hard, this change is most likely due to maintenance complexity with lowering to binary and unnesscary of doinf so.
+  Treat it as a folder-ish structure and dump everything cleanly. This is because on this verison, file are no longer lowered to binary, where before 31, it is lowered to binary, minimal render requirement, making both maintenance and decryption hard. This change is most likely due to maintenance complexity with lowering to binary and unnesscary of this level of encryption.
 
 If =< 15
-  We treat it same way until to unzipping ZTSD part. We need start "guessing" the cubes from how its constructed, patterns, guesses where it end. This causes inaccuracy, this is why format 15, I call by fair hardest version, format 9 seem like a simplified format 15, and so on.
+  We treat it same way until to unzipping ZTSD part. We need start "guessing" the cubes from how its constructed, patterns, guesses where it end. This causes inaccuracy, and why format 15, I call by fair hardest version, format 9 seem like a simplified format 15, and so on.
 
 ## Future plan
 
