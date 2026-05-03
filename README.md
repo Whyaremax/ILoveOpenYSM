@@ -30,7 +30,7 @@ The `1.0.0` package keeps the user-facing extractor and removes verifier/debug t
 - Format `15` is still a work in progress, but it is very close to being supported.
 - Legacy `<1.1.5` YSGP files are still not fully covered, although they appear to be the easiest remaining format family.
 - Asset scanning and folder export through `--scan-assets`, `--dump-assets`, and `--dump-folder`.
-- Optional source-oracle restore for cases where matching original authored files are available nearby.
+- Optional source-oracle restore for cases where matching original authored files are available nearby. (In another word; why you need it when you have original file)
 
 ## Quick start
 
