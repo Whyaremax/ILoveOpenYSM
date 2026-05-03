@@ -135,4 +135,7 @@ This software is provided for research, interoperability, archival, and personal
 
 ## License
 
-ILoveOpenYSM is released under the MIT License. See [LICENSE](LICENSE).
+ILoveOpenYSM is released under the GNU Affero General Public License v3.0 or later (`AGPL-3.0-or-later`). See [LICENSE](LICENSE).
+
+> [!NOTE]
+> The AGPL license is intended to keep modified versions and network-hosted/service versions open under the same license terms.
