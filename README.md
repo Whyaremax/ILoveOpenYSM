@@ -30,7 +30,7 @@ The `1.0.0` package keeps the user-facing extractor and removes verifier/debug t
 - Format `15` is still a work in progress, but it is very close to being supported.
 - Legacy `<1.1.5` YSGP files are still not fully covered, although they appear to be the easiest remaining format family.
 - Asset scanning and folder export through `--scan-assets`, `--dump-assets`, and `--dump-folder`.
-- Optional source-oracle restore for cases where matching original authored files are available nearby. (In another word; why you need it when you have original file)
+- Optional source-oracle restore for cases where matching original authored files are available nearby.
 
 ## Quick start
 
@@ -64,17 +64,26 @@ python3 ysm_extract.py --interactive
 
 The extractor workflow can be summarized as follows:
 
-1. Check the metadata and the first few bytes of the binary to confirm whether the file is a valid YSM model.
-2. Identify the format version from the metadata.
-3. Identify the key from the first few bytes.
-4. Use the known offset rules to decode the remaining binary with the key.
-5. Output the decoded data as Zstandard data.
-6. Unpack the Zstandard data.
-7. Route the decoded content to the correct format-specific extractor.
+1. `ysm_extract.py` bootstraps the local extractor package and forwards execution to `extractors/ysm_extract.py`.
+2. The main extractor detects the container type from the file header:
+   - BOM v3 containers start with UTF-8 BOM + `YSGP`.
+   - Compact YSGP containers start with `YSGP` and use a big-endian version field.
+3. For BOM v3 containers, the extractor reads the text property block and uses the `<format>` field to identify the codec format.
+4. The outer v3 parser validates the wrapper layout, including the property block end, separator byte, outer version `3`, and trailing hash.
+5. The parser splits the protected payload into ciphertext, a trailing `key56` block, and the outer hash. The key material is not taken from the first few bytes of the file.
+6. The first decode stage uses the recovered `key56`, derived selectors, and the reconstructed v3 reader path to decrypt the ciphertext.
+7. The second decode stage applies the MT19937-64 XOR variant currently used by the integrated path.
+8. The decoded stream begins with a small prelude skip value. The extractor uses that value to find the wrapped payload offset.
+9. The wrapped payload is not plain stock Zstandard. The extractor rewrites the custom YSM wrapper block headers into normal Zstandard block headers while preserving the payload bytes.
+10. The resulting Zstandard stream is decompressed with the local `zstd` binary.
+11. The decompressed payload is then routed to the format-specific extractor:
+    - Format `31` uses the modern BOM v3 asset scanner and folder exporter.
+    - Formats `1`, `9`, and `15` use the legacy section scanner and reconstruction path.
+    - Compact YSGP v2 uses the compact entry parser and can dump per-entry payload/key blobs.
 
-For newer formats above `15`, especially format `31`, the decoded content is closer to a folder-like structure and can usually be dumped more cleanly. This appears to be because newer formats no longer lower everything into the older compact binary structure. That design change likely made the format easier to maintain and reduced the need for heavy binary lowering.
+Format `31` currently has the cleanest output path because the decoded content is closer to a folder-like asset layout. The extractor can usually locate assets by property hashes and write a canonical asset folder.
 
-For formats `15` and below, extraction is harder. After the Zstandard stage, the extractor has to infer model cube data from construction patterns, boundaries, and layout guesses. This is why format `15` is currently treated as the hardest known family. Format `9` appears to be a simplified version of that older structure.
+Formats `1`, `9`, and `15` are harder because the payload contains older compiled/binary-lowered structures. The extractor has to recover sections, infer model and animation data from patterns, names, known signatures, structural rows, and conservative guesses. This is why legacy output may differ from official native export output.
 
 ## Future plans
 
