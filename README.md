@@ -1,5 +1,14 @@
 # ILoveOpenYSM
 
+<p align="center">
+  <a href="https://github.com/Whyaremax/ILoveOpenYSM/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Whyaremax/ILoveOpenYSM?style=social"></a>
+  <a href="https://github.com/Whyaremax/ILoveOpenYSM/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/Whyaremax/ILoveOpenYSM?style=social"></a>
+  <a href="https://github.com/Whyaremax/ILoveOpenYSM/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Whyaremax/ILoveOpenYSM?label=release"></a>
+  <a href="https://github.com/Whyaremax/ILoveOpenYSM/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Whyaremax/ILoveOpenYSM"></a>
+  <img alt="Python" src="https://img.shields.io/badge/python-3.x-blue">
+  <img alt="Offline tool" src="https://img.shields.io/badge/runtime-offline-brightgreen">
+</p>
+
 ILoveOpenYSM is a free, open-source, offline YSM extractor for Yes Steve Model files. It is designed for inspecting and extracting YSM, YSGP, and BOM v3 containers without relying on the original native runtime.
 
 The workflow was inspired by the older NSM/NoSteveModel approach, but this repository is maintained as an independent project.
@@ -12,10 +21,31 @@ The workflow was inspired by the older NSM/NoSteveModel approach, but this repos
 > - https://ysm.cfpa.team/
 > - https://modrinth.com/mod/yes-steve-model
 
-> [!NOTE]
-> This project exists as an independent extractor, interoperability, archival, and research tool. It is not a replacement for the original mod.
+> [!TIP]
+> If this project helped you inspect or recover a model, consider starring the repository so other people can find it more easily.
 
-Keywords: YSM extractor, Yes Steve Model extractor, OpenYSM, ILoveOpenYSM, NoSteveModel alternative, NSM alternative, Minecraft YSM decoder, YSGP extractor, BOM v3 extractor, Yes Steve Model tools, Minecraft player model extractor, YSM model converter.
+## At a glance
+
+- Offline Python extractor for YSM-related containers.
+- Supports BOM v3 containers and several known codec families.
+- Best current output path is format `31`.
+- User-facing CLI is `ysm_extract.py`.
+- Intended for research, interoperability, archival, and personal data recovery.
+
+## Contents
+
+- [Project status](#project-status)
+- [Features](#features)
+- [Boundaries and non-goals](#boundaries-and-non-goals)
+- [Supported formats](#supported-formats)
+- [Quick start](#quick-start)
+- [Common commands](#common-commands)
+- [How it works](#how-it-works)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Communication](#communication)
+- [Disclaimer of liability](#disclaimer-of-liability)
+- [License](#license)
 
 ## Project status
 
@@ -23,20 +53,19 @@ Current release: `1.0.0`
 
 The `1.0.0` package keeps the user-facing extractor and removes verifier/debug tooling from the public bundle. It is intended for practical offline extraction, not runtime tracing or native debugger workflows.
 
-> [!TIP]
-> For most users, start with `ysm_extract.py --dump-folder path/to/model.ysm`.
-
 > [!WARNING]
 > Do not pay for any third-party service or tool that claims to sell this project as a paid OpenYSM extractor. ILoveOpenYSM is free and open source.
 
-## What this project is
+## Features
 
 - A small offline Python extractor for YSM-related containers.
 - A research and interoperability tool for understanding YSM/YSGP/BOM v3 files.
 - A practical exporter for supported model assets, especially format `31`.
 - A public, free alternative to abandoned or closed extractor workflows.
+- Asset scanning and folder export through `--scan-assets`, `--dump-assets`, and `--dump-folder`.
+- Optional source-oracle restore for cases where matching original authored files are available nearby.
 
-## What this project is not
+## Boundaries and non-goals
 
 - It is not the official Yes Steve Model project.
 - It is not connected to `ysm.cfpa.team` or the Modrinth Yes Steve Model page.
@@ -44,19 +73,20 @@ The `1.0.0` package keeps the user-facing extractor and removes verifier/debug t
 - It does not provide the original native runtime capability.
 - It does not guarantee official/native export parity for every legacy format.
 
-## What it supports
+## Supported formats
 
 - BOM v3 YSM containers, including known format families `Legacy`, `1`, `9`, `15`, and `31`.
 - Format `31` currently works best because of its simplified structure.
-- Format `15` is still a work in progress, but it is very close to being supported.
+- Format `15` support is nearly complete.
 - Legacy `<1.1.5` YSGP files are still not fully covered, although they appear to be the easiest remaining format family.
-- Asset scanning and folder export through `--scan-assets`, `--dump-assets`, and `--dump-folder`.
-- Optional source-oracle restore for cases where matching original authored files are available nearby.
+- Compact YSGP v2 can dump per-entry payload/key blobs.
 
 > [!CAUTION]
 > Legacy formats can require heuristic reconstruction. Output from formats `1`, `9`, and `15` may differ from official native export output.
 
 ## Quick start
+
+Run commands from the repository root. Directly invoking files under `extractors/` is not the stable public interface.
 
 ```bash
 python3 ysm_extract.py --help
@@ -66,9 +96,6 @@ python3 ysm_extract.py --dump-folder path/to/model.ysm
 `ysm_extract.py` is the supported entrypoint.
 
 `ysm_extractor.py` is included as a compatibility alias for the same CLI.
-
-> [!IMPORTANT]
-> Run the root scripts from this folder. Directly invoking files under `extractors/` is not the stable public interface.
 
 ## Common commands
 
@@ -119,12 +146,29 @@ The extractor workflow can be summarized as follows:
 - Improve recovery accuracy for older binary-lowered formats.
 - Continue separating user-facing extraction from internal verifier/debug tooling.
 
+## Contributing
+
+Issues and pull requests are welcome.
+
+Useful contributions include:
+
+- Test files from formats that are not fully supported yet.
+- Bug reports with command output and container format details.
+- Documentation improvements.
+- Safer reconstruction logic for older binary-lowered formats.
+
+Please do not submit proprietary native runtime files, closed-source code, or assets you do not have permission to share.
+
 ## Communication
 
 - Discord: `nooboyeah`
 - Discord server invite: https://discord.gg/h6Gy9EgcWj
 - No QQ contact is provided.
 - No additional contact channels are provided.
+
+## Search keywords
+
+YSM extractor, Yes Steve Model extractor, OpenYSM, ILoveOpenYSM, NoSteveModel alternative, NSM alternative, Minecraft YSM decoder, YSGP extractor, BOM v3 extractor, Yes Steve Model tools, Minecraft player model extractor, YSM model converter.
 
 ## Disclaimer of liability
 
