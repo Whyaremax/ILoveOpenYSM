@@ -1,26 +1,38 @@
 # ILoveOpenYSM
 
-ILoveOpenYSM is an open YSM extractor for Yes Steve Model files. It is packaged as a small offline Python tool for inspecting and extracting YSM, YSGP, BOM v3. This is inspired on the original abandoned NSM/NoSteveModel workflow.
+ILoveOpenYSM is an open YSM extractor for Yes Steve Model files. It is packaged as a small offline Python tool for inspecting and extracting YSM, YSGP, and BOM v3 containers. The workflow was inspired by the older NSM/NoSteveModel approach, but this repository is maintained as an independent project.
 
 Keywords: YSM extractor, Yes Steve Model extractor, OpenYSM, ILoveOpenYSM, NoSteveModel alternative, NSM alternative, Minecraft YSM decoder, YSGP extractor, BOM v3 extractor, Yes Steve Model tools, Minecraft player model extractor, YSM model converter.
 
-# ANY paided OpenYSM extractor is a scam, this is a free project open and available for anyone.
+## Unofficial project notice
+
+This project is not affiliated with, endorsed by, maintained by, or connected to the official Yes Steve Model project, the YSM/CIT Resewn team site, or the Modrinth Yes Steve Model page:
+
+- https://ysm.cfpa.team/
+- https://modrinth.com/mod/yes-steve-model
+
+This repository exists only as an independent extractor, interoperability, and research project.
+
+## Free project notice
+
+ILoveOpenYSM is free and open source. Do not pay for any third-party service or tool that claims to sell this project as a paid OpenYSM extractor.
 
 ## Release
 
 Current release: `1.0.0`
 
-The 1.0.0 package keeps the user-facing extractor and removes verifier/debug tooling from the public bundle. It is intended for practical offline extraction, not runtime tracing or native debugger workflows.
+The `1.0.0` package keeps the user-facing extractor and removes verifier/debug tooling from the public bundle. It is intended for practical offline extraction, not runtime tracing or native debugger workflows.
 
-## What It Supports
+## What it supports
 
 - BOM v3 YSM containers, including known format families `Legacy`, `1`, `9`, `15`, and `31`.
-- Among them, `31` works the best due to simpilifed structure, `15` are working in progress, with very being close to done.
-- Legacy `<1.1.5 YSGP` are still uncovered, although its the easiest.
+- Format `31` currently works best because of its simplified structure.
+- Format `15` is still a work in progress, but it is very close to being supported.
+- Legacy `<1.1.5` YSGP files are still not fully covered, although they appear to be the easiest remaining format family.
 - Asset scanning and folder export through `--scan-assets`, `--dump-assets`, and `--dump-folder`.
 - Optional source-oracle restore for cases where matching original authored files are available nearby.
 
-## Quick Start
+## Quick start
 
 ```bash
 python3 ysm_extract.py --help
@@ -33,7 +45,7 @@ python3 ysm_extract.py --dump-folder path/to/model.ysm
 
 Run the root scripts from this folder. Directly invoking files under `extractors/` is not the stable public interface.
 
-## Common Commands
+## Common commands
 
 ```bash
 python3 ysm_extract.py --scan-assets path/to/model.ysm
@@ -48,41 +60,40 @@ Interactive mode is available when running from a terminal:
 python3 ysm_extract.py --interactive
 ```
 
-## How does it work?
+## How it works
 
-The extractor workflow could be simplified to following:
-Check for if its valid YSM model from metadata, and first few byte of binary 
+The extractor workflow can be summarized as follows:
 
-Identify format version from metadata
+1. Check the metadata and the first few bytes of the binary to confirm whether the file is a valid YSM model.
+2. Identify the format version from the metadata.
+3. Identify the key from the first few bytes.
+4. Use the known offset rules to decode the remaining binary with the key.
+5. Output the decoded data as Zstandard data.
+6. Unpack the Zstandard data.
+7. Route the decoded content to the correct format-specific extractor.
 
-Identify the key within the first few byte
+For newer formats above `15`, especially format `31`, the decoded content is closer to a folder-like structure and can usually be dumped more cleanly. This appears to be because newer formats no longer lower everything into the older compact binary structure. That design change likely made the format easier to maintain and reduced the need for heavy binary lowering.
 
-Use preset offset, decrypt the rest of binary with the key, and output as ZSTD
-Unpack ZSTD
+For formats `15` and below, extraction is harder. After the Zstandard stage, the extractor has to infer model cube data from construction patterns, boundaries, and layout guesses. This is why format `15` is currently treated as the hardest known family. Format `9` appears to be a simplified version of that older structure.
 
-If > 15 (that's the cut off point I know, there could be a 28 inbetween I remember)
-  Treat it as a folder-ish structure and dump everything cleanly. This is because on this verison, file are no longer lowered to binary, where before 31, it is lowered to binary, minimal render requirement, making both maintenance and decryption hard. This change is most likely due to maintenance complexity with lowering to binary and unnesscary of this level of encryption.
+## Future plans
 
-If =< 15
-  We treat it same way until to unzipping ZTSD part. We need start "guessing" the cubes from how its constructed, patterns, guesses where it end. This causes inaccuracy, and why format 15, I call by fair hardest version, format 9 seem like a simplified format 15, and so on.
+- Add fuller support for all known versions.
+- Keep the extractor maintained for future format changes.
+- Improve recovery accuracy for older binary-lowered formats.
 
-## Future plan
+## Project boundary
 
-Add full support for all version, and any future version.
-**Keep it alive**
-
-## Project Boundary
-
-ILoveOpenYSM is extractor-only package.
+ILoveOpenYSM is an extractor-only package. It is not a replacement for the original mod, and it does not provide the original native runtime capability.
 
 ## Communication
 
-Discord nooboyeah
-Discord server perm link https://discord.gg/h6Gy9EgcWj
-No QQ
-And I'm not giving out anything else
+- Discord: `nooboyeah`
+- Discord server invite: https://discord.gg/h6Gy9EgcWj
+- No QQ contact is provided.
+- No additional contact channels are provided.
 
-## Disclaimer Of Liability
+## Disclaimer of liability
 
 This software is provided for research, interoperability, archival, and personal data recovery use. It is provided "as is", without warranty of any kind. The authors and contributors are not liable for data loss, account issues, game/mod compatibility problems, copyright misuse, service violations, damages, or any other liability arising from use of this software.
 
