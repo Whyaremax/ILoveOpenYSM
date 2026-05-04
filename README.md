@@ -41,6 +41,7 @@ The workflow was inspired by the older NSM/NoSteveModel approach, but this repos
 - [Quick start](#quick-start)
 - [Common commands](#common-commands)
 - [How it works](#how-it-works)
+- [Accuracy expectations](#accuracy-expectations)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Communication](#communication)
@@ -52,6 +53,16 @@ The workflow was inspired by the older NSM/NoSteveModel approach, but this repos
 Current release: `1.0.0`
 
 The `1.0.0` package keeps the user-facing extractor and removes verifier/debug tooling from the public bundle. It is intended for practical offline extraction, not runtime tracing or native debugger workflows.
+
+This repository tracks the small public offline bundle. The broader research tree contains extra reverse-engineering tools, runtime capture helpers, live parser probes, and native-truth experiments. Those tools are useful for studying YSM internals, but they are intentionally not part of this public release.
+
+If you are using ILoveOpenYSM from this repository, the supported expectation is:
+
+- offline extraction
+- practical asset recovery
+- heuristic legacy model reconstruction
+
+It is not a promise of exact official-export parity or authored source reconstruction.
 
 > [!WARNING]
 > Do not pay for any third-party service or tool that claims to sell this project as a paid OpenYSM extractor. ILoveOpenYSM is free and open source.
@@ -138,6 +149,29 @@ The extractor workflow can be summarized as follows:
 
 > [!WARNING]
 > Formats `1`, `9`, and `15` are harder because the payload contains older compiled/binary-lowered structures. The extractor has to recover sections, infer model and animation data from patterns, names, known signatures, structural rows, and conservative guesses.
+
+## Accuracy expectations
+
+For modern assets and straightforward legacy content, the extractor is often good enough for inspection, archival, and practical reuse.
+
+For older legacy model families, especially format-15 content with dense local pivots or layered rotations, output can still differ from:
+
+- the original authored `main.json`
+- the in-game parser-side model state
+- the official Yes Steve Model export
+
+The most common drift shows up in pivot-heavy or rotation-heavy parts such as:
+
+- hair clusters
+- tails
+- masks and face accessories
+- bows
+- skirts or layered clothing
+
+When matching authored detail exactly matters, the best results still come from:
+
+- source-oracle recovery when the original authored files are available
+- native/runtime research workflows kept outside this public bundle
 
 ## Roadmap
 
