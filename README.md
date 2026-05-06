@@ -11,7 +11,7 @@
 
 ILoveOpenYSM is a free, open-source, offline YSM extractor for Yes Steve Model files. It is designed for inspecting and extracting YSM, YSGP, and BOM v3 containers without relying on the original native runtime.
 
-It also carries a small note trail for the native side, so the project is not framed as "just an extractor" with no grounding. The current public note is [`memory/native_library_runtime_evidence_may5.md`](memory/native_library_runtime_evidence_may5.md).
+It also carries a small public note trail for the native and research side, so the project is not framed as "just an extractor" with no grounding. The current note index is [`memory/README.md`](memory/README.md).
 
 The workflow was inspired by the older NSM/NoSteveModel approach, but this repository is maintained as an independent project.
 
@@ -40,6 +40,7 @@ The workflow was inspired by the older NSM/NoSteveModel approach, but this repos
 - [Features](#features)
 - [Boundaries and non-goals](#boundaries-and-non-goals)
 - [Native runtime evidence](#native-runtime-evidence)
+- [Research notes](#research-notes)
 - [Supported formats](#supported-formats)
 - [Quick start](#quick-start)
 - [Common commands](#common-commands)
@@ -94,7 +95,19 @@ This public repo does not ship the original native runtime, but the broader reve
 - `libysm-core` has been observed loading into a JVM and reaching `JNI_OnLoad`, which shows the native path is real even when later bootstrap gates still fail.
 - Headed runtime tracing shows `libysm-core` directly opening and reading real `custom/*.ysm` files and `yes_steve_model/cache/server/*` cache blobs.
 - The Java/Forge side owns packet transport, while native code still owns important payload and state semantics after `ByteBuffer` handoff.
-- A short repo note with the current evidence and boundary is in [`memory/native_library_runtime_evidence_may5.md`](memory/native_library_runtime_evidence_may5.md).
+- The public note bundle is indexed in [`memory/README.md`](memory/README.md).
+
+## Research notes
+
+The repo-local `memory/` folder now carries a curated public subset of the wider
+research notes, including:
+
+- native runtime evidence
+- anti-debug / startup-gate findings
+- import and loader-path findings
+- export and truth-capture findings
+- runtime boundary and platform-limit findings
+- extractor recovery and limit notes
 
 ## Supported formats
 
