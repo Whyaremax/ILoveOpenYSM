@@ -11,6 +11,8 @@
 
 ILoveOpenYSM is a free, open-source, offline YSM extractor for Yes Steve Model files. It is designed for inspecting and extracting YSM, YSGP, and BOM v3 containers without relying on the original native runtime.
 
+It also carries a small note trail for the native side, so the project is not framed as "just an extractor" with no grounding. The current public note is [`memory/native_library_runtime_evidence_may5.md`](memory/native_library_runtime_evidence_may5.md).
+
 The workflow was inspired by the older NSM/NoSteveModel approach, but this repository is maintained as an independent project.
 
 > [!IMPORTANT]
@@ -37,6 +39,7 @@ The workflow was inspired by the older NSM/NoSteveModel approach, but this repos
 - [Project status](#project-status)
 - [Features](#features)
 - [Boundaries and non-goals](#boundaries-and-non-goals)
+- [Native runtime evidence](#native-runtime-evidence)
 - [Supported formats](#supported-formats)
 - [Quick start](#quick-start)
 - [Common commands](#common-commands)
@@ -83,6 +86,15 @@ It is not a promise of exact official-export parity or authored source reconstru
 - It is not a replacement for the original mod.
 - It does not provide the original native runtime capability.
 - It does not guarantee official/native export parity for every legacy format.
+
+## Native runtime evidence
+
+This public repo does not ship the original native runtime, but the broader reverse-engineering work behind ILoveOpenYSM is grounded in direct runtime evidence instead of guesswork alone.
+
+- `libysm-core` has been observed loading into a JVM and reaching `JNI_OnLoad`, which shows the native path is real even when later bootstrap gates still fail.
+- Headed runtime tracing shows `libysm-core` directly opening and reading real `custom/*.ysm` files and `yes_steve_model/cache/server/*` cache blobs.
+- The Java/Forge side owns packet transport, while native code still owns important payload and state semantics after `ByteBuffer` handoff.
+- A short repo note with the current evidence and boundary is in [`memory/native_library_runtime_evidence_may5.md`](memory/native_library_runtime_evidence_may5.md).
 
 ## Supported formats
 
