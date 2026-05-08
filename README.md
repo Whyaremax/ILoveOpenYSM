@@ -33,10 +33,12 @@ The workflow was inspired by the older NSM/NoSteveModel approach, but this repos
 - Best current output path is format `31`.
 - User-facing CLI is `ysm_extract.py`.
 - Intended for research, interoperability, archival, and personal data recovery.
+- Future Minecraft mod implementations and runtime-side development will move to [`3DModelNow`](https://github.com/Whyaremax/3DModelNow).
 
 ## Contents
 
 - [Project status](#project-status)
+- [Future Minecraft mod implementation](#future-minecraft-mod-implementation)
 - [Features](#features)
 - [Boundaries and non-goals](#boundaries-and-non-goals)
 - [Native runtime evidence](#native-runtime-evidence)
@@ -70,6 +72,14 @@ It is not a promise of exact official-export parity or authored source reconstru
 
 > [!WARNING]
 > Do not pay for any third-party service or tool that claims to sell this project as a paid OpenYSM extractor. ILoveOpenYSM is free and open source.
+
+## Future Minecraft mod implementation
+
+ILoveOpenYSM will stay focused on offline extraction, format research, and the public Python CLI.
+
+Future Minecraft mod implementations, runtime compatibility work, loader-specific development, and in-game model framework work are planned to move to [`3DModelNow`](https://github.com/Whyaremax/3DModelNow).
+
+This keeps ILoveOpenYSM as a small research/extractor project while giving Minecraft mod-side development its own dedicated repository.
 
 ## Features
 
@@ -204,6 +214,7 @@ When matching authored detail exactly matters, the best results still come from:
 - Keep the extractor maintained for future format changes.
 - Improve recovery accuracy for older binary-lowered formats.
 - Continue separating user-facing extraction from internal verifier/debug tooling.
+- Move future Minecraft mod implementations and runtime-side mod work to [`3DModelNow`](https://github.com/Whyaremax/3DModelNow).
 
 ## Contributing
 
@@ -217,6 +228,8 @@ Useful contributions include:
 - Safer reconstruction logic for older binary-lowered formats.
 
 Please do not submit proprietary native runtime files, closed-source code, or assets you do not have permission to share.
+
+For Minecraft mod implementation work, runtime compatibility, or in-game framework ideas, please use [`3DModelNow`](https://github.com/Whyaremax/3DModelNow) instead.
 
 ## Communication
 
